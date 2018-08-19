@@ -1,0 +1,96 @@
+1、对象转JSON格式
+function obj2Str(obj) {  
+    switch (typeof (obj)) {  
+	case 'object':  
+	    var ret = [];  
+	    if (obj instanceof Array) {  
+		for (var i = 0, len = obj.length; i < len; i++) {  
+		    ret.push(obj2Str(obj[i]));  
+		}  
+		return '[' + ret.join(',') + ']';  
+	    }  
+	    else if (obj instanceof RegExp) {  
+		return obj.toString();  
+	    }  
+	    else {  
+		for (var a in obj) {  
+		    ret.push('"' + a + '":' + obj2Str(obj[a]));  
+		}  
+		return '{' + ret.join(',') + '}';  
+	    }  
+	case 'function':  
+	    return 'function() {}';  
+	case 'number':  
+	    return obj.toString();  
+	case 'string':  
+	    return "\"" + obj.replace(/(\\|\")/g, "\\$1").replace(/\n|\r|\t/g, function(a) { return ("\n" == a) ? "\\n" : ("\r" == a) ? "\\r" : ("\t" == a) ? "\\t" : ""; }) + "\"";  
+	case 'boolean':  
+	    return obj.toString();  
+	default:  
+	    return obj.toString();  
+    }  
+}
+
+2、参数转码
+页面：	encodeURI(encodeURI(filter_str))
+后台：	String filter_str = request.getParameter("filter_str");
+	filter_str = java.net.URLDecoder.decode(filter_str, "UTF-8");
+
+3、前台解析JSON格式为list对象
+var list = eval('${filter_str}');
+
+4、后台将JSON解析成List对象
+List<Map<String, Object>> filter_list = new ArrayList<Map<String, Object>>();
+filter_list = JacksonUtil.json2ListMap(filter_str);
+
+5、datagrid不显示表头
+$('#dg').datagrid({    
+    idField:'name',    
+    textField:'name',
+    fit: true,  
+    showHeader:false,
+    singleSelect:true,
+    columns:[[    
+	{field:'name',width:document.body.clientWidth*0.74,styler: 
+		function(value,row,index){  
+		if (row.showFlag){//在datagrid中记录行分割线的显示，true：表示显示，false：表示不显示  
+		    return ' border-bottom-color:black; border-bottom-width: 11 11 10px 11; border-right-color:black;';                   
+		}else{  
+		    return 'border-bottom-color:transparent;border-right-color:transparent;';  
+		}  
+	    } 
+		} 
+    ]]
+});
+
+6、获取父窗口的数据
+var filter_obj = window.dialogArguments;
+
+7、窗口宽
+document.body.clientWidth
+
+8、
+var col_value1 = $('#col_value').combogrid('getValues');//当用户选择时，用该该法获取值
+var col_value2 = $("#col_val span input").val();//当用户手动输入时，用该该法获取值，用上面的方法获取的是空
+
+9、前台为url的json数据添加值
+var data1='';
+$('#col_value').combobox({
+	url:'<%=path%>/ModelSearchAction!getDwbhList.action',
+	panelHeight:300,
+	multiple: true,    
+	//valueField:'id',    
+	valueField:'text',    
+	textField:'text',
+	editable:false, 
+	onLoadSuccess: function(data){
+		data.unshift({text:"",id:""});
+		data1 = data;
+	},
+	onShowPanel:function(){
+		$("#col_value").combobox("loadData", data1);
+	}
+});
+
+10、
+把javascript放到页面的最下方会加快页面的加载速度

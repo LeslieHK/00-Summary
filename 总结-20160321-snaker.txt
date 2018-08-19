@@ -1,0 +1,12 @@
+1、流程定义文件以Snaker为后缀名，实际上是一个XML文件
+
+2、流程引擎负责解析XML文件，并转化成Java的ProcessModel对象
+
+3、流程引擎SnakerEngine对象是由Configuration根据snaker.xml构建所得，并且包含四项服务：
+1）ProcessService：负责部署、卸载、更新流程，并且可创建无流程定义的自由流程
+2）OrderService：负责创建 、更新、完成、终止流程实例
+3）TaskService：负责创建、完成任务，并且可创建 自由 任务
+4）ManagerService：负责提供惡流程相关的管理服务
+5）QueryService：负责与流程相关的查询操作
+
+4、Snaker所有的组件模型都实现了Actoin接口，该接口定义如下：

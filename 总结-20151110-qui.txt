@@ -1,0 +1,207 @@
+quick ui
+
+1、框架必需的目录：
+	lib：包含框架所需要的JS脚本库、公共CSS库、图标库和组件风格包。
+	system：包含主框架的外观文件（一般是一个主页、左侧导航页、右侧欢迎页）、登录页和各自的外观皮肤包。
+
+2、把system\layout下的main.jsp作为主页。
+
+3、默认登录页面引入样式：
+	<link href="skin/style.css" rel="stylesheet" type="text/css" id="skin" />
+
+4、主页面引入样式及脚本：
+   <link href="../../libs/css/import_basic.css" rel="stylesheet" type="text/css"/>
+   <link href="../../libs/skins/modernBlue/style.css" rel="stylesheet" type="text/css" id="theme" themeColor="modernBlue" positionTarget="positionContent" selInputHeight="28" selButtonWidth="29" defaultSelWidth="160" fileBtnWidth="60" defaultFileInputWidth="222" defaultGridHeaderHeight="32" defaultGridRowHeight="32" defaultFontSize="14" defaultPageSelWidth="55" defaultFilterItemHeight="28" defaultFontFamily="微软雅黑"/>
+   <link href="../../system/layout_html/skin/style.css" rel="stylesheet" type="text/css" id="skin"  skinPath="system/layout_html/skin/"/>
+   <script type="text/javascript" src="../../libs/js/jquery.js"></script>
+   <script type="text/javascript" src="../../libs/js/language/cn.js"></script>
+   <script type="text/javascript" src="../../libs/js/main.js"></script>
+   
+   第1句是引入公共CSS库；
+
+   第2句引入组件风格包。用themeColor指定组件的主题风格，这是提供给每个内页来使用的，将在后面具体讲解； 
+
+   第3句引入主框架外观皮肤包。用skinPath指定主框架外观皮肤包相对于系统根目录所在的位置，这是提供给每个内页来使用的，将在后面具体讲解；
+
+   第4句引入jquery库；
+
+   第5句语言包
+
+   第6句引入主框架页面所需要的脚本，该脚本只有主框架页面才使用。
+
+5、左侧内页：
+   <script type="text/javascript" src="../../libs/js/jquery.js"></script>
+   <script type="text/javascript" src="../../libs/js/language/cn.js"></script>
+   <script type="text/javascript" src="../../libs/js/framework.js"></script>
+   <link href="../../libs/css/import_basic.css" rel="stylesheet" type="text/css"/>
+   <link rel="stylesheet" type="text/css" id="skin" prePath="../../" scrollerY="false"/>
+   <link rel="stylesheet" type="text/css" id="customSkin"/>
+
+   第1句引入jquery库；
+
+   第2句语言包
+
+   第3句引入框架引擎脚本：framework.
+
+   第4句引入公共CSS库；
+
+   第5句为id=skin的CSS，用来引入组件风格包。这里并没有引入文件，而是设置了prePath；
+
+   第6句为id=customSkin的CSS，用来引入主框架外观皮肤。这里也没有引入文件。
+
+
+   当该页面刚被加载时，framework引擎会自动给id=skin的CSS添加路径。添加的路径如下：“本页设置的prePath”+“libs/”+“主框架设置的themeColor”+“/style.css”
+ 
+   同时，framework引擎也会给id=customSkin的CSS添加路径。添加的路径如下：“本页设置的prePath” +“主框架设置的skinPath”+“style.css”
+ 
+
+6、测试：
+   当第一次配置完主框架和内页的参数后，可以在主框架的id=”theme”的css链接中加入debug="true"，来测试是否配置正确。代码如下：<link href=".././libs/skins/blue/style.css" rel="stylesheet" id="theme" themeColor="blue" debug="true"> 
+
+
+   如果配置成功，则弹出成功提示。
+
+7、body里必须有一对id="scrollContent"的div标签，所有“滚动内容”都放在这里，而“固定内容”放在这个div的上面或下面。
+
+8、右测内页：与左测内页少了一句:leftFrame="true"
+
+9、弹窗内页：不要有id="scrollContent"的div
+
+10、必备知识：
+    (1)页面初始化后执行脚本：$(function(){})或$(document).ready(function(){})
+       不能使用window.onload=xxx，因为某些浏览器只有用一次onload，这个事件已经被框架用了
+       function initComplete(){}框架固有的初始化方法，所有组件执行完后执行
+       $(function(){ })；等页面加载后再执行；  func();顺序执行；
+    (2)Coolie：
+       jQuery.jCookie('cookie', 'value')（不能存数字0，需要可以先转化成字符串）
+       jQuery.jCookie('cookie')
+       jQuery.jCookie('cookie')
+    (3)Coolie：
+       一个个去除：onfocus="this.blur()"
+       批量去除：
+           a{
+	     behavior:url(<%=path%>/libs/js/method/focus.htc)
+	   }
+    (4)避免用href="#"，而用href="javascript:void();"，但是IE6如果没有href属性，鼠标经过就会有horver效果
+    
+    (5)文字不可选处理：首先对不可选的部分例如body添加onselectstart事件，代码如下：
+       <body onselectstart="noEffect()">
+         内容部分
+       </body>
+
+       function noEffect() {
+         with (event) {
+           returnValue = false;
+           cancelBubble = true;
+         }
+         return;
+       }
+    (6)屏蔽鼠标右键
+       $(function(){
+         $("body").bind("contextmenu", function(){
+           return false;
+         })
+       })
+11、图标索引：
+    <span class="img_list"></span>
+    <span class="icon_edit">编辑</span><br/>
+    <button type="button"><span class="icon_save">保存</span></br>
+
+    图标菜单：
+    <div class="popupMenu">
+      <div class="popupMenu_link">
+        <a href="javascript:;">操作</a>
+      </div>
+      <div class="popupMenu_con icon_con">
+        <a href="javascript:;"><span class="icon_add">新增</span></a>
+        <a href="javascript:;"><span class="icon_edit">修改</span></a></a>
+        <a href="javascript:;"><span class="icon_delete">删除</span></a></a>
+        <a href="javascript:;"><span class="icon_view">查看</span></a></a>
+      </div>
+    </div>
+
+    图标工具栏：
+    toolbar: { 
+      items: [
+        { text: '新增', click: addUser, iconClass: 'icon_add' },
+        { line: true },
+        { text: '批量删除', click: deleteUser, iconClass: 'icon_delete' },
+        { line: true },
+        { text: '导入', click: importUser, iconClass: 'icon_import' },
+        { line: true },
+        { text: '导出', click: exportUser, iconClass: 'icon_export' }
+      ]
+    }
+
+12、box模型：
+    class="box1"
+    class="box2"
+    class="box3"
+
+13、a、span、input、textarea、img、div可增加title属性，实现提示。
+
+14、树组件：参考zTree
+
+15、表单无素：
+    (1)自动完成框
+       <script type="text/javascript" src="<%=path%>/libs/js/form/autoComplete.js"></script>
+       <input type="text" class="autoComplete" url="<%=path%>/autoComplateAction.do?method=getListByWord"/>
+    (2)双向选择器
+       <script type="text/javascript" src="<%=path%>/libs/js/form/lister.js"></script>
+       <div class="lister" id="lister1" url="<%=path%>/userAction.do?method=getUsersOfDoubleSelect"></div>
+    (3)颜色选择器
+       <script type="text/javascript" src="<%=path%>/libs/js/form/color.js"></script>
+       <input type="text" class="color" />
+    (4)数字进步器
+       <script type="text/javascript" src="<%=path%>/libs/js/form/stepper.js"></script>
+       <input type="text" class="stepper" value="0" />
+    (5)软键盘控件
+       <script type="text/javascript" src="<%=path%>/libs/js/form/keypad.js"></script>
+       <input class="keypad" type="text"/>
+    (6)评星级控件
+       <script type="text/javascript" src="<%=path%>/libs/js/form/rating.js"></script>
+       <div class="rating"></div>
+    (7)异步上传与同步上传
+
+16、数据表格：
+    (1)引入表格控件脚本：<script src="<%=path%>/libs/js/table/quiGrid.js" type="text/javascript"></script>
+    (2)在页面里放置div容器用于渲染表格
+       <div class="padding_right5">
+         <div id="maingrid"></div>
+       </div>
+    (3)在框架初始化函数initComplete()中渲染表格
+       var grid = null;
+       function initComplete(){    
+         grid = $("#dataBasic").quiGrid({
+         columns:[
+           { display: '姓名', name: 'userName',     align: 'left', width: "18%"},
+           { display: '所属部门', name: 'orgName',  align: 'left', width: "20%"}
+           { display: '操作', isAllowHide: false, align: 'left', width:"12%",
+               render: function (rowdata, rowindex, value, column){
+                 return '<div class="padding_top4 padding_left5">'
+                   + '<span class="img_list hand" title="查看" onclick="onView(' + rowdata.userId + ')"></span>'
+                   + '<span class="img_edit hand" title="修改" onclick="onEdit(' + rowdata.userId + ')"></span>' 
+                   + '<span class="img_delete hand" title="删除" onclick="onDelete(' + rowdata.userId+','+rowindex + ')"></span>'
+                   + '</div>';
+               }
+           }
+         ],
+         url: '<%=path%>/userAction.do?method=getUsers', sortName: 'userId',rownumbers:true,checkbox:true,
+         height: '100%', width:"100%",pageSize:5,percentWidthMode:true,
+         toolbar:{
+          items:[
+           { text: '新增', click: addUnit,    iconClass: 'icon_add'},
+           { line : true },
+           { text: '批量删除', click: deleteUnit, iconClass: 'icon_delete'},
+           { line : true },
+           { text: '导入', click: showImportDialog, iconClass: 'icon_import'},
+           { line : true },
+           { text: '导出当前页', click: exportPageData, iconClass: 'icon_export'},
+           { line : true },
+           { text: '导出全部', click: exportTotalData, iconClass: 'icon_export'}
+          ]
+         }
+         });
+       }
+
+17、其他

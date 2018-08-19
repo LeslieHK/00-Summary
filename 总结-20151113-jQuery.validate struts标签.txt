@@ -1,0 +1,43 @@
+jQuery.validate
+
+1、var validator = $("").validate({可选项});
+
+2、var validatorFlag = validator.form();
+
+3、可选项：
+   debug: true,
+   submitHandler: function(form){},
+   ignore: "#id",
+   rules:{
+     name: "required", //要验证的属性:字符串对象
+     email:{
+       required: true,
+       email: rue
+     }
+   },
+   message:{
+     name: "Name不能为空",
+     email:{
+       required: "E-mail不能为空",
+       email: "E-mail地址不下确"
+     }
+   }，
+   onfocusout: true,
+   onkeup: false,
+   success: function(){},
+   hightlight: 给未通过验证的元素加效果,
+   success: function(label){
+     label.text(" ").removeClass("error");
+   }
+
+struts标签：
+   OGNLConext：
+   (1)applicaion：<s:property value="#application.text"/>
+   (2)session：<s:property value="#session.text"/>
+   (3)request：<s:property value="#request.text"/>
+   (4)attr：<s:property value="#attr.text"/>
+   (5)parameter：<s:property value="#parameter.text"/>
+   (6)ValueStack:值栈，是OGNL的根，不需使用"#"
+      设置：ValueStack valueStack = context.getValueStack();
+            valueStack.push(new User("zhangsan",20));
+      取值：<s:property value=“user.name"/>

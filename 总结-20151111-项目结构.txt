@@ -1,0 +1,50 @@
+项目理解：
+1、com.baidu.ueditor
+
+2、com.database_sql
+
+3、com.filter
+
+4、com.listener
+
+5、com.ecan.actoin
+
+6、com.ecan.bean
+
+7、com.ecan.common
+   (1)JdbcUtil_WP.java
+      a、静态块：获取E_WP_jdbc这个 配置文件下的关联情况
+        （E_WP_jdbc连接的表，存放的是供应商，厂家，物品，授权关系，证件除图片外的所有信息。)
+         Class.forName(driverClassName);
+	 Connection conn=DriverManager.getConnection(url, username, password);
+	 Statement statement=conn.createStatement();
+      b、reBuildDataSource：重新绑定数据源
+      c、getConn：连接数据库
+      d、tryClose：
+      e、transactionUpdate(String[] sqlArray, int commitCount)
+         stmt.addBatch(sqlArray[i]);
+	 stmt.executeBatch();
+      f、getCount(String sql);
+      g、createCountSQL(String sql);
+      h、executeUpdate(String sql);
+      i、createPageSQLFinal();
+      j、createPageSQLForMs();
+      k、excuteQuery();
+      l、transactionUpdateForHttpClient();
+      m、transactionUpdateForHttpClient2();
+
+   (2)JdbcUtil_File.java
+      
+   (3)JdbcDBUtil.java
+      a、getListForBean
+      b、getListForMap
+      c、getObjectForBean
+      d、getObjectForMap
+      e、executeUpdate
+
+   (4)
+8、com.ecan.db.dao
+
+9、com.ecan.service
+
+10、com.ecan.web

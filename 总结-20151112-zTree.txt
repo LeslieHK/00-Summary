@@ -1,0 +1,101 @@
+zTree
+
+1、页面加载后初始化函数：$(function(){});或$(document).ready(function(){});
+
+2、zTree初始化方法：$.fn.zTree.init(obj, zSetting, zNode);
+   (1)obj：用于展现zTree的DOM容器
+      zSetting：zTree的配置数据
+      zNode：zTree的节点数据
+   
+   (2)加载jQuery.js
+      加载jquery-ztree-core-3.0.js（jquery-ztree.exedit-3.0.js/jquery-ztree.excheck-3.0.js）
+      加载zTreeStyle.css以及zTreeStyle目录下的img文件
+
+   (3)class="ztree"
+
+   (4)quickUI集成了zTree
+
+3、var setting = {
+     //treeId:"",	zTree的唯一标识，初始化后等于容器的Id
+     async:{
+       autoParam:[],
+       contentType:"",
+       enabled:true,
+       type:"post",
+       url:""
+     },
+     callback:{
+     
+     },
+     check:{
+       chkStyle:"checbox",//"radio"
+       chkboxType:{"Y":"ps","N":"ps"}	
+       //Y属性定义checkbox被勾选后的情况
+       //N属性定义checkbox取消勾选后的情况
+       //"p"表示操作会影响父节点
+       //"s"表示操作会影响子节点
+     },
+     data:{
+       key:{
+         checked:"checked",
+	 children:"children",
+	 name:"name",
+	 title:"title",
+	 url:"url"
+       },
+       simpleData:{
+         enable:false,
+	 idKey:"id",
+	 pIdKey:"pId",
+	 rootPid:null
+       }
+     }
+   }
+
+4、treeNode:{
+     checked:true,
+     children:,
+     chkDisabled:true,
+     icon:,
+     name:,
+     url:,
+     id
+   }
+
+5、var zTreeObj = $.fn.zTree.getZTreeObj("id");
+   zTreeObj.checkAllNodes(checked);
+	   .checkedNode(node, checked);
+	   .getNodes();
+	   .getNodesByParam(key, value, parentNode);
+	   .setChkDisabled(node, disabled)
+
+
+6、$.fn.zTree.destroy(treeId);
+
+
+SQLServer 2008
+
+1、连接
+   jdbc.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
+   jdbc.url=jdbc:sqlserver://127.0.0.1:1433;（默认端口号是：1433）
+   DatabaseName=wz_out_provider;（实例名）
+   SelectMethod=cursor;
+
+   jdbc.username=sa
+   jdbc.password=123
+
+   jdbc.dialect=org.hibernate.dialect.SQLServerDialect
+
+ 2、查看端口号
+    sql Server Configuration Manager -> SQL Server配置管理器(本地) -> SQL Native Client 10.0配置(32位) -> 客户端协议 -> TCP/IP 右击属性
+
+
+总结
+
+1、获取tomcat的位置：System.getProperty("catalina.home");
+
+2、读取配置文件：
+   Properties prop = new Properties();
+   InputStream in = new InputStream(file);
+   prop.load(in);
+   String name = prop.getProperty("name");

@@ -1,0 +1,6 @@
+1、通过传递一个state为"closed"或"open"可设置节点为父节点或子节点
+case isPm when '1' then 'closed' else 'open' end as state
+
+2、点击父节点，会重新加载整棵树的问题
+点击父节点时，会传当前父节点的ID到后台，通过判断该父节点的子类，再加载，就能实现异步加载了
+String parentId = request.getParameter("id");

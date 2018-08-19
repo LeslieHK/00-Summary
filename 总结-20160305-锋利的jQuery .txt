@@ -1,0 +1,460 @@
+1、jQuery的优点：
+(1)不污染顶级变量：能和其他的jQuery库共存
+(2)链式操作方式：同一个jQuery对象上的一组动作可以连写而无需重复获取对象
+
+2、
+$ = jQuery
+$(function(){}); = $(document).ready(function(){});
+
+3、$(document).ready();和window.onload();的差别
+(1)前者在所有DOM加载完就执行，后者必须等网页中所有的内容加载完毕后
+(2)前者能编写多个，后者只能编写一个，否则只执行最后一个
+
+4、链式操作：
+(1)对于同一个对象不超过3个操作的可以直接写成一行
+(2)对于同一个对象的较多操作，建议每行写一个操作
+
+5、jQuery和DOM不能混用
+document.getElementById('id').innerHTML; = $('#id').html();
+
+6、jQuery和DOM的转化
+(1)jQuery转DOM：可以通过[index]或get(index)的方法获取相应的DOM对象
+jQuery对象是一个类似数组的对象
+var $cr = $('#cr');
+var cr1 = $cr[0];
+var cr2 = $cr.get(0);
+(2)DOM对象转jQuery：只需要用一个$()把DOM对象包装起来就可以
+var cr = document.getElementById("cr");
+var $cr = $(cr);
+
+7、
+$.click(function(){});实现html和script的分离
+
+8、用jQuery检查某个元素在网页上是否存在时：
+正确：if($('#tt').length > 0){}
+错误：if($('#tt')){}
+
+9、群组选择器：
+$("div,span,a")
+
+10、
+$('prev+next'); = $('prev').next();紧接在prev元素后的next元素
+$('prev~siblints'); = $('prev').nextAll();prev元素之后的所有的siblings元素
+	siblings();同辈节点
+
+11、
+(1)过滤选择器
+:first :last :not(selector) :even :odd :eq(index)
+:gt(index) :lt(index) lt(index) :head :animated :focus
+:contain(text) 含有文本内容为"text"的元素
+:empty 不包含子元素或者文本的空元素
+:has(selector) 
+:parent 含有子元素或者文本的元素
+:hidden :visible
+(2)属性选择器 [name=value]
+(3)表单选择器 :input
+
+注意事项
+12、选择器中含有特殊符号："#"、"("、"]"，用"//"转义
+
+13、
+DOM获取对象：document.getElementByTagName("form");
+DOM获取某元素的src属性：element.getAtttribute("src");
+
+14、HTML-DOM：
+document.forms
+element.src
+
+15、CSS-DOM：
+element.style.color
+
+P78
+
+16、创建元素节点
+(1)var $li_1 = $(html);创建DOM对象，并转成一个jQuery对象($()是jQuery的工厂函数)
+(2)$('ul').append($li_1);
+
+append();
+appendTo();
+	$('ul li:eq(1)').append('ul');
+	appendTo()方法可以用来移动元素，移动元素时首先从文档上删除此元素
+prepend();
+prependTO();
+after();
+insertAfter();
+before();
+insertBefore();
+
+17、删除节点
+remove();
+detach();与remove();不同的是，所有绑定的事件、附加的数据等都会保留下来
+empty();
+
+18、复制节点
+对比：
+$(this).appendTo("ul");--移动
+$(this).clone().appendTo("ul");--复制，不带属性
+$(this).clone(true).appendTo("ul");--复制，带属性
+
+19、
+$.replaceWith("");
+$.replaceAll("");
+
+$.wrap("");--分开包裹
+$.wrapAll("");--一起包裹
+$.wrapInner("");
+
+20、样式、属性
+addClass();
+removeClass();
+toggle();--切换
+	//如果元素原本是显示的则隐藏，原本隐藏，则显示
+	$.toggle(function(){
+	    //显示元素
+	  },function(){
+	    //隐藏元素
+	  }
+	)
+
+attr();
+removeAttr();
+hasClass();
+
+21、获取HTML、文本和值
+html(); --innerHTML
+text(); --innerText(JavaScript中的innerText不能在火狐上运行，text()可以)
+val();  --value
+
+22、遍历节点
+(1)children();
+(2)next();
+(3)prev();
+(4)siblings();
+(5)closest();取得最近的匹配元素
+	$.closest('li');
+(6)parent();
+(7)parents();
+(8)find();
+(9)filter();
+(10)nextAll();
+(11)prevAll();
+
+23、CSS-DOM操作
+$.css();
+	$("p").cs("color", "red");
+	$("p").css({"fontSize": "30px", "backgroundColor": "red"});
+	key:
+	    font-size
+	    fontSize
+
+	$("p").css("opacity", "0.5");--不透明度
+
+24、高度
+$.height();实际高度
+$.css("height");可能样式
+
+25、
+(1)offset();获取元素在当前视窗的相对位置
+(2)position();获取元素相对于最近一个position样式属性设置为relation(相对)或者absolute(绝对)的祖父节点的相对偏移
+	var offset = $("p").offset();
+	var left = offset.left;
+	var top = offset.top;
+
+26、
+(1)window.onload();--所有的元素都加载完后执行，如果有一个大型的图库网站，必须等所有图片加载出来后才能执行
+(2)$(document).ready();--所有DOM加载完才执行，只要DOM加载完，图片可能还没加载完
+	$(document).ready(function(){}); = $().ready(function(){}); = $(function(){});
+(2)$(window).load();--相当于window.onload();
+
+27、绑定事件
+bind(type [, data] , fn);
+	第2个参数作为event.data属性值传递给事件对象
+
+28、
+$(this):this是一个DOM对象
+
+29、合成事件
+(1)hover();
+	$.hover(function(){}, function(){});  --替代了jQuery的bind("mouseenter");和bind("mouseleave");
+(2)toggle();
+	另一个作用是切换元素的可见状态，如果元素可见，单击隐藏，再单击可见
+	$.toggle(function(){
+	    $(this).next().toggle();		
+	  },function(){
+	    $(this).next().toggle();
+	});
+
+30、事件
+(1)event.type --click
+(2)event.target --事件的元素
+(3)event.pageX/event.pageY --获取光标相对于页面的x坐标和y坐标
+(4)event.which --鼠标的左右中键，或键盘的按键
+(5)event.mataKey --<ctrl>按銉
+
+31、移除绑定
+unbind([bype], [data]);
+
+32、只需触发一次的绑定事件
+one(type, [data], fn);
+
+33、绑定多个事件
+$.bind("mouseover mouseout", function(){})
+
+34、添加事件命名空间，便于管理
+$.bind("click.plugin", function(){});
+$.bind("mouseover.plugin", function(){});
+
+$.unbind(".plugin");
+
+所绑定的事件类型后面加命名空间，这样在删除事件时只需要指定命名空间即可
+
+
+35、动画效果
+(1)show();/hide(); ==("block", "block(inline)/none")
+	加速度参数：show(var);/hide(var);
+	1)"slow"：600毫秒内
+	2)"normal"：400毫秒内
+	3)"fast"：200毫秒内
+	4)直接指定数字：$.hide(1000);
+(2)fadeIn();/fadeOut(); --改变不透明度
+(3)slideUp();/slideDown(); --改变高度
+(4)animate(); --自定义动画
+	animate(params, speed, callback);
+	为了使元素动起来，要更改元素的"left"样式属性，position要设置成"relative"或"absolute"
+	
+	$.animate({left: "500px"，height: "200px"}, 3000);
+	$.animate({left: "+=500px"}, 3000); --如果在500px前加"+="或"-="即表示在当前位置累加或者累减
+
+(5)stop(); --结束
+(6)$.is(":animated"); --是否处于动画状态
+(7)delay(1000); --延迟
+
+P161
+
+36、下拉框
+属性：multiple
+	var $options = $('#select1 option:selected');
+	var $remove = $options.remove(); --可省略
+	$remove.appendTo('#select2');
+
+37、end();
+重新返回$(this);对象
+
+
+38、Ajax
+核心：XMLHttpRequest
+	(1)声明
+	var xmlHttpReq = null;
+	(2)赋值
+	if(window.ActiveXObject){ //IE5和IE6是以ActionXObject的方式
+ 	  xmlHttpReg = new Action XObject("Microsoft.XMLHTTP");
+	} else if(window.XMLHttpRequest){ //除IE5和IE6外
+	  xmlHttpReq = new XMLHttpRequest();
+	}
+	(3)初始化
+	xmlHttp.open("GET", "test.php", true);
+	(4)回调
+	xmlHttpReq.onreadystatechange = RequestCallBack;
+	(5)发送请求
+	xmlHttpReq.send(null);
+
+(1)load：
+$("#resTest").load("test.html" .para);//只加载页面中class为"para"的内容 
+	url参数的语法："url selector"中间是空格
+	有3个参数，返回的内容 、请求状态和XMLHttpRequest对象
+(2)get
+(3)post
+(4)ajax
+(5)$.getScript("test.js");
+(6)$.getJSON();
+
+39、serialize();
+    serializeArray();
+    $.param();
+	是serialize()方法的核心，用来对一个数组或对象按照key/value进行序列化
+	var obj = {a:1,b:2,c:3};
+	var k = $.param(obj);
+	alert(k); //输出a=1&b=2&c=3
+
+
+40、
+console.log方便调式javascript，可以看到在页面中输出的内容
+
+相比alert他的优点是：
+
+能看到结构话的东西，如果是alert，淡出一个对象就是[object object],但是console能看到对象的内容。
+
+console不会打断你页面的操作，如果用alert弹出来内容，那么页面就死了，但是console输出内容后你页面还可以正常操作。
+
+console里面的内容非常丰富，你可以在控制台输入：console
+
+41、Ajax全局变量
+ajaxStart();
+ajaxStop();
+ajaxComplete();
+ajaxError();
+ajaxSend();
+ajaxSuccess();
+
+如果想使某个Ajax请求不受全局方法影响 ，那么可以在使用$.ajax(options)方法时，将参数中的global设置成false
+$.ajax({
+	url: "test.html",
+	global:false
+});
+
+42、Validation插件：
+(1)引入jQuery库和Validation插件
+<script src="../../scripts/jqueryjs"></script>
+<script src="lib/jquery.validate.js></script>
+(2)
+$("#commentFomr").validate();
+一：
+   class="required email url" minlength="2"
+二：
+   引入jquery.metadatajs --固定格式解析
+   <scripit src="lib/jquery.metadata.js"></script>
+   $("#commentFomr").validate({meta: "validate"});
+   class="{validate:{required:true, minlength:2}}"
+三：
+   $("#commentForm").validate({
+	rules:{
+	  username:{ --按name
+		required:true,
+		minlength:2
+	  },
+ 	  url:"url",
+	  comment:"required"
+	}
+   });
+(3)默认的语言是英文，引入语言库
+<script src="lib/jquery.validate.messages_cn.js"></script>
+(4)自定义验证规则
+$.validator.addMethod(
+  "formula",				//验证方法名称
+  function(value, element, param){	//验证规则
+    return value == eval(param);
+  },
+  '请。。。'				//验证提 示信息
+);
+
+P227
+http://docs.jquery.com/plugins/validation
+jquery.validate.js
+jquery.metadatajs
+jquery.validate.messages_cn.js
+   
+43、jquery-cookie.js
+(1)写入Cookie
+$.cookie('the_cookie', 'the_value');
+(2)读Cookie
+$.cookie('the_cookie');
+(3)删除Cookie
+$.cookie('the_cookie', null);
+
+$.cookie('the_cookie', 'the_value', {
+  expires:7, --有效期，可设置为一个整数(单位为天)，也可以设置成一个Date对象。如果指定日期为负数，将被删除；如果设置或设置为null，那些Cookie将被当作Session Cookie处理，并且在浏览器关闭后删除
+  path: '/', --默认该页面的路径
+  domain: 'jquerycom', --域名属性，默认是创建该Cookie的页面域名
+  secure: true --true会用HTTPS
+});
+
+44、Css设置margin和padding为零
+让页面不受不同浏览器默认设置的页边距和字边距影响
+
+45、margin:0 auto;能让div居中显示
+
+46、position:absoute;显示在规定的位置
+
+47、优化
+ID选择器>标签选择器>类选择器>属性选择器
+缓存变量和链式操作的利弊
+事件代理：点击一行改变样式，应该点击表的时候去给点击那行绑定事件,而不是每一行绑定一个事件
+使用join();代替加号
+
+48、js压缩工具：JSMin，YUICompressor，
+
+49、禁用页面的右键菜单
+$(document)ready(function(){
+  $(document).bind("contextmenu", function(e){return false;});
+});
+
+50、新窗口打开页面
+$(document)ready(function(){
+  $('a[href^="http://"]').attr("target", "_blank");
+
+  $('a[href^="http://"]').click(function(){
+    this.target = "_blank";
+  })
+});
+
+51、判断浏览器类型
+$(document)ready(function(){
+  //Firefox 2 and above
+  if($.browser.mozilla && $.broswer.version >= "1.8"){
+
+  }
+  //Safari
+  if($.browser.safari){
+
+  }
+  //Chrome
+  if($.browser.chrome){
+
+  }
+  //Opera
+  if($.browser.Opera){
+
+  }
+  //IE6 and below
+  if($.browser.msie && $.browser.version <= 6){
+
+  }
+  //anything above IE6
+  if($.browser.msie && $.browser.version > 6){
+
+  }
+});
+
+jquery 1.3版本以后官方推出使用$.support来代替$.browser
+
+52、返回头部滑动动画
+jQuery.fn.scrollTo = function(speed){
+  var targetOffset = $(this)offset().top;
+  $('html,body').stop()animate({scrollTop: targetOffset}, speed);
+  return this
+};
+//use
+$('#goheader')click(function(){
+  $('body').scrollTo(500);
+  return false;
+});
+
+53、判断元素是否存在
+if($('#id').length)
+
+54、
+$(window).width();
+
+55、设置Div在中央
+$(document).ready(function(){
+  jQuery.fn.center = function(){
+      this.css("position", "absolute");
+      this.css(top", ($(window).height() - the.height())/2 + $(window).scrollTop() + "px");
+      this.css(top", ($(window).width() - the.width())/2 + $(window).scrollLeft() + "px");
+      return this;
+  }
+  //use
+  $('#XY').center();
+});
+   
+2016/3/10
+
+
+
+
+
+
+
+
+
+

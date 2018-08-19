@@ -1,0 +1,66 @@
+1、POI设置单元格的颜色：
+   //设置单元格的颜色
+   cellStyle.setFillBackgroundColor(HSSFColor.BLACK.index);
+
+public class POI {
+	public static void main(String[] args) {
+		//1、创建工作薄
+		HSSFWorkbook workbook = new HSSFWorkbook();
+		//2、创建工作表
+		HSSFSheet sheet = workbook.createSheet("工作表1");
+		HSSFSheet sheet2 = workbook.createSheet("工作表1");
+		//3、创建行
+		HSSFRow row = sheet.createRow((short)0);
+		//4、创建单元格
+		HSSFCell cell = row.createCell((short)0);
+		HSSFCell cell2 = row.createCell((short)1);
+		HSSFCell cell3 = row.createCell((short)2);
+		//5、设置单无格的值
+		cell.setCellValue("日期");
+		cell2.setCellValue(new Date());
+		cell3.setCellValue(true);
+		//6、获取单无格的值
+		cell.getStringCellValue();
+		cell2.getDateCellValue();
+		cell3.getBooleanCellValue();
+		//7、设置单元格的对齐方式
+		HSSFCellStyle cellStyle = workbook.createCellStyle();
+		HSSFCellStyle cellStyle2 = workbook.createCellStyle();
+		cellStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("m/d/yy"));
+		cell.setCellStyle(cellStyle);
+		cellStyle2.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
+		cell2.setCellStyle(cellStyle2);
+		//8、设置单元格的边框样式
+		cellStyle.setBorderBottom(CellStyle.BORDER_DOUBLE);
+		//9、设置单元格的颜色
+		cellStyle.setFillBackgroundColor(HSSFColor.BLACK.index);
+		//10、合并单元格(merged:合并，region:区域)
+		sheet.addMergedRegion(new Region(1, (short)1, 3, (short)4));//第1行第1列到第3行第4列
+		//11、设置字体
+		HSSFFont font = workbook.createFont();
+		font.setFontHeightInPoints((short)24);
+		font.setItalic(true);
+		cellStyle.setFont(font);
+	}
+}
+
+2、log4j
+   用法：
+   Logger logger = Logger.getLogger();
+   logger.warning("警告");
+   三个重要的组件：
+     优先级(priority)：debug、info、error、fatal
+     输出目的地(appender)：org.apache.log4j.FileAppender; 
+     输出格式layouy：
+   
+   配置文件：
+   log4j.rootLogger = ERROR,E
+
+   #log4j.category.logWZ=ERROR,E
+ 
+   log4j.appender.E = org.apache.log4j.DailyRollingFileAppender
+   log4j.appender.E.File = E:/wz.log
+   log4j.appender.E.Append = true
+   log4j.appender.E.Threshold = ERROR
+   log4j.appender.E.layout = org.apache.log4j.PatternLayout
+   log4j.appender.E.layout.ConversionPattern =%-d{yyyy-MM-dd HH\:mm\:ss}  [ %t\:%r ] - [ %p ]  %m%n

@@ -1,0 +1,72 @@
+1、
+easyui datatrid 隐藏表头
+
+(1)、将datagrid  title 属性去掉
+(2)、#dg  .datagrid-header {  position: absolute; visibility: hidden;     }
+(3)、使用HTML标签创建树形表格可以实现，
+     使用Javascript创建树形表格无法实现
+
+
+
+showHeader:false
+
+2、
+无法用百分比的情况下：
+document.body.clientWidth
+
+document.body.clientWidth
+
+
+3、去边框
+columns:[[    
+	{field:'name',width:document.body.clientWidth*0.74,styler: 
+		function(value,row,index){  
+			if (row.showFlag){//在datagrid中记录行分割线的显示，true：表示显示，false：表示不显示  
+		        	return ' border-bottom-color:black; border-bottom-width: 11 11 10px 11; border-right-color:black;';                   
+			}else{  
+		        	return 'border-bottom-color:transparent;border-right-color:transparent;';  
+			}  
+		 } 
+	} 
+]]
+
+4、同步问题：
+		while($('#col_value').combobox('getData').length > 0){
+		    	var data = $('#col_value').combobox('getData').length;
+		    	for(var i=0;i<data.length;i++){
+			    	if(data[i].text == all_col_val){
+			    		 $("#col_value").combobox('select',data[i].text);
+			    	}
+			    }
+		    }	
+
+
+5、
+//页面之间传值
+    	/*
+    	var list_map = window.dialogArguments; 
+   		if(list_map != null && list_map.length > 0){
+		  for ( var i = 0; i < list_map.length; i++) {
+		    alert(list_map[i].baidux);
+		    alert(list_map[i].baiduy);
+		  }
+		} */
+
+6、combogrid  获取所有的数据
+$('#col_value').combogrid({
+				onLoadSuccess: function(data){
+					alert(data.rows[0].provider_name);
+				}
+			});
+
+7、
+html代码中利用class声明了datagrid，导致easyUI解析class代码的时候先解析class声明中的datagrid，这样组件就请求了一次url；然后又调用js初始化代码请求一次url。这样导致了重复加载，解决的方法就是只用一种初始化方法来声明easyUI组件以避免重复的提交请求，即删除html中的class声明(class="easyui-datagrid")
+
+8、页面之间传值
+var list_map = window.dialogArguments; 
+if(list_map != null && list_map.length > 0){
+  for ( var i = 0; i < list_map.length; i++) {
+    alert(list_map[i].baidux);
+    alert(list_map[i].baiduy);
+  }
+}

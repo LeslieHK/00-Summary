@@ -1,0 +1,99 @@
+1、JFinal是：WEB+ORM开发框架；
+2、特点：
+   1）MVC
+   2）遵循COC原则：零配置，无XML
+   3）Db+Record
+   4）ActiveRecord
+   5）自动加载java文件，无需重启web server
+   6）AOP
+   7）Plugin体系
+   8）支持FreeMarker、JSP、Velocity
+   9）Validator校验
+   10）拥有Struts2绝大部分功能
+   11）体积小
+3、JFinal的web项目需要创建一个继承自JFinalConfig类的子类，该类用于对整个web项目进行配置。
+   五个抽象方法：
+   1）configConstant
+   2）configRoute(String controllerKey, Class<? extends Controller> controllerClass, String viewPath)
+        controllerKey：不加"/"和有加效果一样，Routes类会默认加上
+                     不能重复
+        viewPath：返回的视图的相对路径，不写默认controllerKey\
+
+      JFinal在以上路由规则之外还提供了ActionKey注解
+        @ActionKey("/login")
+   3）configPlugin
+        C3P0Plugin
+   4）configInterceptor
+      在Controller中用 @Clear 清除
+      配置粒度：Global、Class、Interceptor
+
+      配置 控制层全局拦截器与业务层全局拦截器
+   5）configHandler
+
+   PropKit：用来操作外部配置文件
+     user(fileName);
+4、Controller
+     一个Controller可能包含多个Action，Action方法必须在Controller中声明，必须是Public的且无形参
+   request
+   response
+
+   getAttr
+   setAttr
+
+   getPara(String)
+   getPara(int)
+
+   getModel(Class);用来接收页面表单域传递过来的model对象
+   // 如果表单域的名称为"otherName.title" 可加上一个参数来获取
+   blog = getModel(Blog.class, "otherName");
+
+   如果客户端请求为multipart request（form表单使用了enctype="multipart/form-data"），
+   那么必须先调用getFile系列方法才能使getPara系列方法正常工作，
+   因为multipart request需要通过getFile系列方法解析请求体中的数据，包括参数。
+
+   getSessionAttr
+   setSessionAttr
+   render：FreeMarker、JSP、Velocity、JSON、File、Text、Html
+
+   IE不支持contentType为application/json,在ajax上传文件完成后返回json时IE提示下载文件,
+   解 决 办 法 是 使 用 ：render(new     JsonRender().forIE())
+   或者render(new JsonRender(params).forIE())。
+   这种情况只出现在IE浏览器ajax 文件上传，其它普通ajax请求不必理会
+
+5、MyEclipse：类文件在 -- WebRoot/WEB-INF/classed下
+   Eclipse  ：类文件在 -- build/classes下
+
+6、AOP
+   三个概念：Interceptor、Before、Clear 
+   
+     Before注解用来对拦截器进行配置，该注解可配置Class、Method级别的拦截器
+     Before可以将拦截器配置为Class级别与Method级别，前者将拦截本类中所有方法，
+     后者仅拦截本方法。此外Before可以同时配置多个拦截器，只需用在大括号内用逗号将多个拦截器进行分隔即可。
+	// 配置一个Class级别的拦截器，她将拦截本类中的所有方法
+	@Before(AaaInter.class)
+	public class BlogController extendsController {
+	  // 配置多个Method级别的拦截器，仅拦截本方法
+	  @Before({BbbInter.class, CccInter.class})
+	  public void index() {
+	  }
+	  // 未配置Method级别拦截器，但会被Class级别拦截器AaaInter所拦截
+	  public void show() {
+	  }
+	}
+
+     Clear用于清除自身所处层次以上层的拦截器。
+     Clear声明在Method层时将针对Global、Inject、Class进行清除。
+     Clear声明在Class层时将针对Global、Inject进行清除
+
+7、ActiveRecord
+   ActiveReceord中定义了addMapping(String tableName, Class<? extends Model> modelClass>)方法，
+   该方法建立了数据库表名到Model的映射关系
+   
+   arp.addMapping(“user”,  User.class)，表的主键名为默认为“id”，
+   如果主键名称为“user_id”则需要手动指定，如：
+   arp.addMapping(“user”, “user_id”, User.class)。
+
+   Model无需定义属性，无需定义getter、setter方法
+
+
+已看到第五章 第3小节

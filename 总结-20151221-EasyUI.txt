@@ -1,0 +1,56 @@
+1、属性：所有的属性都定义在jQuery.fn.{plugin}.defaults里面
+
+2、事件：所有的事件（回调函数）也都定义在jQuery.fn.{plugin}.defaults里面。
+
+3、方法：所有方法都定义在jQuery.fn.{plugin}.methods，每个方法都有2个参数：jq和param。第一个参数'jq'是必须的，这是指的jQuery对象。第二个参数'param'是指传入方法的实际参数。
+
+4、方法的调用：$('selector').plugin("method", parameter);
+
+5、方法的拓展：
+  $.extend($.fn.dialog.methods, {    
+    mymove: function(jq, newposition){    
+        return jq.each(function(){    
+            $(this).dialog('move', newposition);    
+        });    
+    }    
+  });
+
+6、request.getScheme();获取协议
+   request.getServerName();获取域名
+   request.getServerPort();获取端口
+   request.getContextPath();获取项目名称
+
+7、引入的文件：
+   <link rel="stylesheet" type="text/css" href="<%=path %>/script/easyui/themes/icon.css" />
+   <link rel="stylesheet" type="text/css" href="<%=path %>/script/easyui/themes/default/easyui.css" />
+   <script type="text/javascript" src="<%=path %>/script/easyui/jquery.easyui.min.js"></script>
+   <script type="text/javascript" src="<%=path %>/script/easyui/jquery.1.8.0.min.js"></script>
+   <script type="text/javascript" src="<%=path %>/script/easyui/locale/easyui-lang-zh_CN.js"></script>
+
+9、样式不能使用百分比
+
+8、DataGrid：
+   扩展自$.fn.panel.defaults
+   (1)通过<table>标签创建DataGrid控件。在表格中使用<th>标签定义列
+   <table class="easyui-datagrid" style="width:400px;height:250px"
+	data-options="url:'',fitColumns:true,singleSelect:true">
+	<thead>
+	  <tr>
+	    <th data-options="field:'code',width:100">编号</th>
+	    <th data-options="field:'name',width:100">名称</th>
+	  </tr>
+	</thead>
+   </table>
+
+   (2)使用javascript
+   <table id="dg"></table>
+   $('#dg').datagrid({
+     url:'',
+     columns:[[
+       {field:'code',width:100},
+       {field:'name',width:100}
+     ]]
+   });
+
+   刷新当前数据：
+   $('#dg').datagrid('reload');

@@ -1,0 +1,2 @@
+1、打印页面起始页
+fltContent.append("LODOP.SET_PRINT_STYLEA(1,'StartNumberValue',34);");

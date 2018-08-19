@@ -1,0 +1,122 @@
+FreeMarker
+1、hash哈希表
+2、如果仅存储单值的变量则它们被称为标量
+3、序列：用数组的方括号
+4、FTL：Freemarker模板语言
+5、FTL tags标签：
+6、Comments注释：<#-- -->
+7、指令：
+	if指令：<#if condition>...</#if>  <#if condition>...<#else>...</#if>
+	list指令：<#list sequence as loopVariable>repeaThis</#list>
+	include指令：<#include "/copyright_footer.html">
+8、一个不存在的变量和一个是null的变量，对于FreeMarker来说是一样的
+9、不论在哪里引用变量，者可以指定一个默认值来避免丢失这种情况，通过后面跟着一个！和默认值。
+	${user!"Anonymous" }
+   多级访问的变量：
+   ${(animals.python.price)!0 }
+   也可以通过放置??来询问FreeMarker一个变量是否存在，将它和if指令合并。
+	<#if user??>${user }</#if>
+
+10、类型：
+	标量：
+		字符串
+		数字：整数和非整数是不区分的
+		布尔值
+		日期
+	容器：
+		哈希表：无顺序
+		序列：有顺序
+		集：不能获取集的大小，也不能通过索引取出集中的子变量
+	子程序：
+		方法和函数
+		用户自定义指令：
+	节点：配合XML
+
+11、模板：程序语言编写的程序。
+	Text文本：
+	Interpolation插值：${ }或#{ }(后者不建议使用)
+	FTL tags标签：区分大小写，指令用小写，FTL标签不可以在其他FTL标签和插值中使用。
+	Comments注释：<#--  -->
+
+12、指令：
+	如果标签没有嵌套内容，那么可以只使用开始标签。
+
+13、字符串：
+	单引号和双引号是相等的
+	用反斜扛转义
+	获取字符串的一个字符：str[0]
+
+14、原生字符串：
+	在原生字符串中，反斜杠和${没有特殊的含义，为了表明字符串是原生字符串，在开始的引号或单引号之前置字母r
+		${4"${foo }" }
+
+15、数字
+	不支持科学记数法
+	不能在小数点之前不写0
+
+16、序列：
+	2..5和[2,3,4,5]是一样的
+	5..
+
+17、内建函数：
+	以？形式提供变量的不同形式
+
+	字符串：
+	html:字符串中所有的特殊HTML字符都需要用实体引用来代替（比如<代替&lt;）。
+	cap_first:字符串的第一个字母变为大写形式lower_case:字符串的小写形式
+	upper_case:字符串的大写形式
+	trim:去掉字符串首尾的空格
+
+	序列：
+	size:
+
+	数字：
+	int:数字的整数部份
+
+18、处理不存在的值：
+
+19、第四章没看
+
+20、
+import freemarker.template.*;
+import java.util.*;
+import java.io.*;
+
+public class Test {
+	public static void main(String[] args) throws Exception {
+		/*
+		 * 在整个应用的生命周期中，这个工作你应该只做一次。
+		 */
+		/*
+		 * 创建和调整配置。
+		 */
+		Configuration cfg = new Configuration();
+		cfg.setDirectoryForTemplateLoading(new File(
+				"/where/you/store/templates"));
+		cfg.setObjectWrapper(new DefaultObjectWrapper());
+		/*
+		 * 在整个应用的生命周期中，这个工作你可以执行多次
+		 */
+		/*
+		 * 获取或创建模板
+		 */
+		Template temp = cfg.getTemplate("test.ftl");
+		/*
+		 * 创建数据模型
+		 */
+		Map root = new HashMap();
+		root.put("user", "Big Joe");
+		Map latest = new HashMap();
+		root.put("latestProduct", latest);
+		latest.put("url", "products/greenmouse.html");
+		latest.put("name", "green mouse");
+		/*
+		 * 将模板和数据模型合并
+		 */
+		Writer out = new OutputStreamWriter(System.out);// 注意：为了简单起见，这里压制了异常（在方法签名中声明了异常，译者注），而在正式运行的产品中不要这样做。
+		temp.process(root, out);
+		out.flush();
+	}
+}
+
+21、

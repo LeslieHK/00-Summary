@@ -1,0 +1,25 @@
+1、svn：提交的时候先更新
+
+2、ResultInfo：flag，message，id，map
+
+3、值的传递：
+   1)异步加载是通过json传递的：commonPrintForObject(Object msg)
+   2)同步加载是通过request传递的：request.setAttribute();->${a.b}
+
+4、chm 已取消到该网页的导航，打不开！
+
+   方法 1
+   1. 双击此 .chm 文件。 
+   2. 在“打开文件安全警告”对话框，单击以清除“打开此文件前始终询问”复选框。 
+   3. 单击“打开”。 
+
+   方法 2
+   1. 右键单击该 CHM 文件，然后单击“属性”。 
+   2. 单击“取消阻止”或者“解除锁定”。 
+   3. 双击此 .chm 文件以打开此文件。
+
+5、HashMap无序，LinkedHashMap有序
+
+6、编译.java文件
+使用dos命令进入你的java源文件（*.java）的目录下，使用javac 命令进行编译。
+例如你的java源文件是Test.java，那编译命令就是javac Test.java  然后编译后使用java Test命令进行执行你的java程序。

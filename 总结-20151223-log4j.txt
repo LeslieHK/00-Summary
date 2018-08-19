@@ -1,0 +1,39 @@
+log4j.rootLogger = DEBUG, CONSOLE, FILE
+
+log4j.appender.CONSOLE = org.apache.log4j.ConsoleAppender
+log4j.appender.CONSOLE.layout = org.apache.log4j.PatternLayout
+log4j.appender.CONSOLE.layout.ConversionPattern = %d{yyyy-MM-dd HH\:mm\:SS} [%c %L行 %t] [%-4r] %m%n
+log4j.appender.CONSOLE.Target = System.out
+
+log4j.appender.FILE = org.apache.log4j.DailyRollingFileAppender
+log4j.appender.FILE.File = ${catalina.home}/logs/TTT.log
+log4j.appender.FILE.layout = org.apache.log4j.PatternLayout
+log4j.appender.FILE.layout.ConversionPattern = %d{yyyy-MM-dd HH\:mm\:SS} [%c %L行 %t] [%-4r] %m%n
+
+
+注意：
+1、结束不需要有分号。
+2、layout为小写，其他驼峰命名法。
+3、服务器主目录：${catalina.home }
+
+使用：
+public class Log4JUtil {
+	private static Logger logger = null;
+
+	static {
+		try {
+			File pFile = new File(System.getProperty("catalina.home")
+	    			+ "\\ecan_config\\Platform_log4j.properties");
+			URI fileURI = pFile.toURI();
+			URL fileURL = fileURI.toURL();
+			logger = Logger.getLogger(Log4JUtil.class);
+			PropertyConfigurator.configure(fileURL);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void error(String message, Throwable t) {
+		logger.error(message, t);
+	}
+}

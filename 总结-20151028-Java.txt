@@ -1,0 +1,30 @@
+1、archive：存档
+2、如果类名称中包含单词缩写，则这个所写词的每个字母均应大写，如XMLExample
+3、如果一个常量名称由多个单词组成，则应该用下划线来分割这些单词，如MAX_VALUE
+4、考虑置入一个main()
+5、考虑是否采用内部类
+6、抛出构建器内的异常
+7、尽量使用interfaces，不要使用abstract类
+8、常用类型变量名一般用有意义的名词或名词短语来表示，请不要用下划线
+9、在类型强制转化操作符与操作对象间不应有空格
+10、在条件语句标识符if与其后的括号间应有一个空格
+11、在使用“==”进行关系运算时，如果是一个变量与一个常量值进行比较，则常量写前面，以便在“==”不小心写成”=”时，编译出错。
+    错误： if (a == “101”)  正确： if (“101” == a);
+    错误： a.equals(“101”)  当a为null时出错； 正确： “101”.equals(a)
+12、在switch-case结构中，case语句距离switch 语句的开始应缩进一个TAB，每个case的程序体距离case的开始缩进一个TAB;（和eclipse不同）
+13、JSP：内部受保护的属性使用下划线开头（_）
+14、注释一行代码用“//”标识，并且书写在需要注释的上一行
+15、判断中如有常量，则应将常量置于判断式的右侧。如：
+    if ( true == isAdmin())...
+    if ( null == user)...
+16、do语句始终使用;(分号)结尾
+17、具有值的return语句不应该使用()(圆括号)包围值
+18、<script src=”filename.js”>标签应该在body里越靠后的位置越好
+19、始终使用===和!==操作符会更好，==和!=操作符会做类型强制转换。
+20、避免错误的连接: 
+    比如：
+      Select * from crm.co_ower a,crm.co_ower_info b  WHERE a.party_id = b.party_id and a.co_id = ‘xxxxxxx’;
+    应该
+      Select * from crm.co_ower a,crm.co_ower_info b  WHERE b.co_id = a.co_id and a.co_id = ‘xxxxxxx’;
+21、查询语句where的查询顺序是从后往前的
+22、运行jar包：java -jar path

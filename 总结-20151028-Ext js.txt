@@ -1,0 +1,17 @@
+1、Ext js主要目录和文件：
+   locale：本地语言包
+   resources：资源包，包含CSS层叠样式表及其图片
+   bootstrap.js：根据url自动加载ext-all.js或ext-all-debug.js
+   ext-all.js
+   ext-all-debug.js
+2、引用：
+   <link href="jslib/ext/resources/css/ext-all.css"/>
+   <script src="jslib/ext/bootstrap.js"/>
+3、javascript的函数：
+   function test(){}
+   var test1 = function(){}
+   var test2 = function(){}() -->函数立即运行并赋值
+   (function(){})()
+4、jQuery中：$(function(){})是$(document).ready(function(){})的缩写
+5、ip v4正则表达式：/\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(:\d{1,5})?\b/
+   

@@ -1,0 +1,14 @@
+1、图标
+图标 class 不能和其它元素联合使用，因为这些图标被设计为独立的元素、独立使用。
+可将图标放在button组件里面。
+
+2、按钮
+类型：btn-default、btn-primary、btn-success、btn-info、btn-warning、btn-danger、btn-link
+大小类型：btn-lg、btn-sm、btn-xs（Extra Small）
+通过给按钮添加.btn-block可以使其充满父节点100%的宽度，而且按钮也变为了块级（block）元素。
+禁用按钮：增加disabled属性
+可作按钮使用的HTML标签：a、button、input（button可确保跨浏览器的一致性样式）
+
+3、图片
+类型：img-rounded、img-circle、img-thumbnail（thumbnail：略缩图）
+通过添加.img-responsive class可以让Bootstrap 3中的图片对响应式布局的支持更友好，可以让图片按比例缩放

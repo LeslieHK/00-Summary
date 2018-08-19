@@ -1,0 +1,77 @@
+1、匿名函数：
+(function($){})(jQuery);
+
+-->(function(arg){...})(param)
+-->这就相当于定义了一个参数为arg的匿名函数，并且将param作为参数来调用这个匿名函数
+
+用$是为了不其他的库冲突
+
+相当于：
+-->var fn = function($){....};
+-->fn(jQuery);
+
+2、开发jQuery插件时总结的一些经验分享一下。 
+
+1)
+
+jQuery(function(){ }); 
+全写为 
+jQuery(document).ready(function(){ }); 
+
+意义为在DOM加载完毕后执行了ready()方法。 
+
+2)
+(function(){})(jQuery)； 
+其实际上是执行()(para)匿名方法,只不过是传递了jQuery对象。 
+
+3)
+jQuery(function(){　});用于存放操作DOM对象的代码，执行其中代码时DOM对象已存在。不可用于存放开发插件的代码，因 为jQuery对象没有得到传递，外部通过jQuery.method也调用不了其中的方法（函数）。 
+(function(){　})(jQuery)；用于存放开发插件的代码，执行其中代码时DOM不一定存在，所以直接自动执行DOM操作的代码 请小心使用。
+
+3、插件
+jQuery为开发插件提拱了两个方法，分别是：
+
+-->jQuery.extend(object);为扩展jQuery类本身.为类添加新的方法。
+-->jQuery.fn.extend(object);给jQuery对象添加方法。 
+
+$.extend({
+　　add:function(a,b){returna+b;}
+}); 
+
+$.fn.extend({
+  alertWhileClick:function(){
+    $(this).click(function(){
+	alert($(this).val());
+    });
+  }
+}); 
+
+4、parser(解析器)
+
+     解析器可是easyui一个重要基础插件，你之所以可以通过简单class定义，在浏览器里面就能展现出一个布局或是面板
+
+全是通过这个插件作为入口，他会获取所有在指定范围内所有定义为easyui组件的class定义，然后在根据后缀定义辨别需要
+
+把当前节点解析成为何种组件。
+
+    解析器有两种用法：
+
+      $.parser.parse();不带任何参数。这种情况下默认是解析页面中所有定义为easyui组件的节点。
+      $.parser.parse('#cc');  带一个jquery选择器。通过这种方式我们可以只解析我们局部定义的easyui组件，
+    
+    需要说明的这个jquery选择器必须是你解析组件的父级以上的节点。也就是说这个查找出来的节点相当于一个容器，它只会解析容器里面的内容。
+
+    全局属性：$.parser.auto 定义是否自动解析easyui组件。默认是为true，自动解析。
+
+5、datagrid字体变红色、划掉
+formatter:break_line	
+
+/**
+ *停用时，用横线划掉
+ */
+function break_line(val,row){
+	if(row.IsStop == '1')
+		return "<span style='text-decoration:line-through;'><font color='red'>" + val + "</font></span>";
+	else
+		return val;
+}

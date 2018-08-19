@@ -1,0 +1,58 @@
+1、项目目录：
+(1)src
+(2)gen：自动生成，主要有一个R.java文件，项目添加的任何资源都会在其中生成一个相应的资源id。
+(3)assets：随程序打包的文件
+(4)bin：编辑时自动产生的文件，apk
+(5)libs：第三方jar包，会自动添加到构建路径里去。
+(6)res：资源(所有的图片、布局、字符)，图片放drawable，布局放layou，字符放values。
+(7)AndroidManifest.xml：配置文件，你在程序中定义的所有四大组件都需要在这个文件里注册，没有在AndroidMaintest.xml里注册的活动不可以用的
+	其中intent-filter里的两行代码非常重要，
+	<action  android:name="android.intent.action.MAIN" />和
+	<category android:name="android.intent.category.LAUNCHER" />
+	表示HelloWorldActivity是这个项目的主活动，在手机上点击应用图标，首先启动的就是这个活动。
+(8)project.properties：指定所使用的SDK版本
+
+2、HelloWorldActivity.java
+继承Activity
+onCreate：活动被创建时必需要执行
+
+3、hello_world_layout.xml
+
+4、
+活动里面不定义布局
+布局里面不定义字符
+
+5、res
+drawable(drawable-hdpi)
+values
+layout
+menu
+
+6、LogCat
+传入两个参数，第一个参数是tag，一般传当前类名，第二个参数是msg，既想要打印的具体的内容 
+Log.v(); --verbose
+Log.d();
+Log.i();
+Log.w();
+Log.e();
+
+P30
+
+7、属性
+xml引用资源
+@id/button_1
+定义一个ID
+@+id/id_name
+
+layout_width="match_parent"：和父无素一样宽
+layout_height="wrap_content"：当前元素高度只要能刚好包含里面的内容就行
+
+8、
+setContentView()给当前活动加载一个布局
+
+9、Toast
+
+10、Intent
+显式Intent
+隐式Intent
+

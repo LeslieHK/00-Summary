@@ -1,0 +1,35 @@
+1、sql字符转数字
+	convert(decimal(2,1),arg);
+
+2、查询
+	List<Map<String, Object>> certList = new ArrayList<Map<String, Object>>();
+	Map<String, Object> certNode = null;
+	Connection conn = null;
+	Statement stmt = null;
+	ResultSet rs = null;
+	StringBuilder querySQL = new StringBuilder();
+		
+	String arg = "";
+
+	try {
+		conn = JdbcUtil.getConn();
+		stmt = conn.createStatement();
+		rs = stmt.executeQuery(querySQL.toString());
+		while (rs.next()) {
+			arg = rs.getString("arg");
+			certNode = new HashMap<String, Object>();
+			certNode.put("certNode", certNode);
+			certList.add(certNode);
+		}
+	} catch (Exception e) {
+		e.printStackTrace();
+	} finally {
+		JdbcUtil.tryClose(rs, stmt, conn);
+	}
+	return certList;
+
+3、SQL获取表名
+	select * from information_schema.tables
+
+4、SQL语句中模糊查询的下划线的问题
+	select * from information_schema.tables where TABLE_NAME like 'twl_phinfo\_20%' escape '\';

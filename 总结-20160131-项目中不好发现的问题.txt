@@ -1,0 +1,9 @@
+1¡¢
+select aa.ID,aa.goods_name,aa.wpgg,aa.unit3,aa.cj_name,bb.*,dd.dw_name, isnull(cast((datediff(day,getdate(),bb.YXQ)) as int),'')  as thedate 
+ from twl_product aa  join 
+ (select b.goodsid,b.Dwbh,sum(b.quantity) as quantity,avg(b.price) as price ,sum(b.amount) as amount, CASE when len(b.YXQ)>7 THEN b.Yxq when len(b.YXQ)=6 THEN b.Yxq+'01' else b.Yxq+'-01' end as Yxq 
+ from twl_phinfo b where b.quantity >0 and isnull(b.YXQ,'')<>''  
+ group by b.goodsid ,b.Dwbh,b.Yxq having 1=1 )bb on aa.id=bb.goodsid join  t_dwbh dd  on bb.Dwbh=dd.ID where 1=1 and cast((datediff(day,  getdate(), bb.YXQ))as int)<=180 order by dd.Dwbh,amount
+
+´íÎóÔ­Òò£º
+when len(b.YXQ)=6 THEN b.Yxq+'01'

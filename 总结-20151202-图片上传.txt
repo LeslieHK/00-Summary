@@ -1,0 +1,59 @@
+1、图片上传
+	ImageInputStream iis = null;
+	InputStream is = new FileInputStream(up_img_file);
+	// 裁剪
+	Iterator<ImageReader> it = ImageIO.getImageReadersByFormatName(ext);//ext后缀名
+	ImageReader reader = it.next();
+	iis = ImageIO.createImageInputStream(is);
+	reader.setInput(iis, true);
+	ImageReadParam param = reader.getDefaultReadParam();
+	Rectangle rect = new Rectangle(xPosition, yPosition, picWidth, picHeight);//长方形
+	param.setSourceRegion(rect);
+	BufferedImage bi = reader.read(0, param);
+	String filePath = ServletActionContext.getServletContext().getRealPath("/"); // 获取项目根路径
+	File file = new File(filePath);
+	if (!file.exists()) {
+		file.mkdirs();// 创建目录
+	}
+	ImageIO.write(bi, ext, new File(fullPath));
+	InputStream in = new FileInputStream(fullPath);
+
+2、图片显示
+	<img src='<%=path%>/TProDicAction!showImg2.action?id="+cert_id+"&name="+encodeURI(encodeURI(name))+"' height='160px' width='180px'/>
+
+	InputStream ins = null;
+	Connection conn = null;
+	OutputStream out = response.getOutputStream();
+	
+	try {
+		String picDbName = PropertiseUtil_wzInnerPic.getDatabaseName();
+		conn = JdbcUtil.getConn();
+		Statement st = conn.createStatement();
+		ResultSet rs = st
+				.executeQuery("select dbfile from " + picDbName +".dbo.T_Provider_Certificate where messageid='"
+						+ certId
+						+ "' and name='"
+						+ name
+						+ "' ");
+		if (rs.next()) {
+			int tmpi = 0;
+			ins = rs.getBinaryStream("dbfile");
+			while ((tmpi = ins.read()) != -1) {
+				out.write(tmpi);
+			}
+		}
+		JdbcUtil.tryClose(rs, st, conn);
+	} catch (Exception ex) {
+		ex.printStackTrace();
+	}
+	return out;
+
+3、保存图片action
+	com.ecan.pictrue/PictrueAction.java/uploadPhoto.action
+
+4、图片尺寸表(图片大小、高度、宽度)
+	twl_pictrue_size
+
+5、上传图片，先保存到tomcat，否则没有id，最后存到数据库中
+
+6、显示图片可以直接用二进制：src="流"

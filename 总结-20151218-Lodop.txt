@@ -1,0 +1,73 @@
+1、嵌入方式
+   引用代码(在head或body中)：	
+	<script language="javascript" src="LodopFuncs.js"></script>
+	<object id="LODOP_OB" classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width=0 height=0>
+		<embed id="LODOP_EM" type="application/x-print-lodop" width=0 height=0></embed>
+	</object>
+   调用Lodop功能前，先获得控件对象：
+	var LODOP = getLodop(document.getElementById("LODOP_OB"), document.getElementById("LODOP_EM"));;
+   当页面不加载以上代码时，getLodop过程会动态建立它们：
+	var LODOP = getLodop();
+
+2、相关文件：
+   ·install_lodop32.exe和install_lodop64.exe
+	这俩文件是安装和升级的主程序，对应32位和64位浏览器（这里是浏览器位数不是操作系统位数）		
+	改成uninstall_lodop32.exe可用于卸载控件
+   .LodopFuncs.js
+	包含JS过程getLodop，该过和根据浏览器类型来取用页面元素(object或embed)，
+	从而兼容各种浏览器，同时检查控件是否安装、是否最新版本
+
+3、生成打印页：
+	(1)画一个名片大小的矩形边框：
+	LODOP.ADD_PRINT_RECT(10,55,360,220,0,1);
+	边框离纸张顶端10px(px是绝对值长度，等于1/96英寸,下同)距左边55px、宽360px、高220px、
+	框为实线(0-实线 1-破折线 2-点线 3-点划线 4-双点划线)、线宽为1px
+	
+	(2)设置基本打印风格：
+	LODOP.SET_PRINT_STYLE("FontSize",11);
+	"FontSize"是系统关键字，表示设置字体大小，11是字体大小值，单位是pt。
+  
+	(3)在矩形框内打印姓名栏：
+	LODOP.ADD_PRINT_TEXT(20,180,100,25,"郭德强");
+	姓名栏离纸张顶端20px、距左边180px、宽100px、高25px、内容为“郭德强”
+  
+	(4)设置姓名栏的打印风格：
+	LODOP.SET_PRINT_STYLEA(2,"FontName","隶书");
+	LODOP.SET_PRINT_STYLEA(2,"FontSize",15);
+	2是姓名栏的增加顺序号,"FontName"和"FontSize"是系统关键字,表示设置字体名和字体大小。
+	"隶书"是字体名值,同操作系统的字体名，15是字体大小值，单位是pt。
+	序号设0表示最新对象，注意SET_PRINT_STYLEA与SET_PRINT_STYLE的区别。
+
+	(5)在发送以上指令前，一般要初始化并设置打印任务名：
+	LODOP.PRINT_INIT("打印插件功能演示_代码功能_名片");
+ 
+	(6)用超文本实现该名片打印：
+	LODOP.ADD_PRINT_HTM(10,55,"100%","100%",strHtml);
+	前俩参数设置超文本对象位置，两个100%设置对象区域可达纸张边，最后参数是超文本代码
+
+4、函数getLodop：
+	判断当前浏览器的类型并决定采用哪个对象实例，并检测控件是否安装、是否最新版本、并引导安装或升级。
+
+5、参数：（放在<object></object>中）
+	Caption：控件在页面内一般是以object元素形式被引用。可以通过设置元素的width和height等于0来隐藏控件，不隐藏时可以		为控件设置一个标题
+		<param name="Caption" value="我是打印控件lodop">
+	Color：	<param name="Color" value="#C0C0C0">
+	Border：<param name="Border" value="1">
+
+6、函数：
+	LODOP.VERSION;
+	LODOP.PRINT_INIT(strTaskName);
+	LODOP.PREVIEW();
+
+
+7、软件注册：
+	LODOP.SET_LICENSES("","","","");
+
+	<param name="CompanyName" value="注册单位名称XXX">
+	该注册号配合其实现按使用者单位名称注册。这种注册不限制域名，注册者可把Lodop用于多个WEB工程，适合软件开发公司注册。
+
+	<param name="LicenseA" value="附加注册号A">
+	这是域名注册号之二，一般是内网IP注册号，随主注册号免费赠送。
+	
+	<param name="LicenseB" value="附加注册号B">
+	这是域名注册号之三，一般是外网IP注册号，随主注册号免费赠送。

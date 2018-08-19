@@ -1,0 +1,5 @@
+1、
+bootstrap filestyle：隐藏的file框在IE上会聚焦，看得到
+$('#myFile').blur();
+
+2、

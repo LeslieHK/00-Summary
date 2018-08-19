@@ -1,0 +1,11 @@
+1、fmt标签
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<fmt:formatNumber value="${值}" pattern="#0.00（格式）" />
+
+2、
+jsp：<fmt:formatNumber pattern="#0.00"><s:property value="#bean.ckQuantity" /></fmt:formatNumber>
+js:  var.toFixed(2)
+
+3、
+动态袪除TR
+$('#maintable tr:last').remove();

@@ -1,0 +1,14 @@
+1、动态绑定
+<script type="text/javascript" src="<%=path%>/script/jquery.livequery.js"></script>
+
+2、固定表头功能
+jquery.fixedtableheader.min.js
+
+3、
+convert();
+
+4、
+tail -f xx.log
+
+5、
+按钮权限参考申核审领单-SenderAction.java

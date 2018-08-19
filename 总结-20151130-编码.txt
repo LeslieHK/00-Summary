@@ -1,0 +1,29 @@
+1、编码
+   前台：param_keyword=encodeURI(encodeURI(param_keyword))
+   后台：param_keyword = java.net.URLDecoder.decode(param_keyword, "UTF-8");
+
+2、ajax返回json
+   后台：commonPrintForObject(dataList);-->
+	 String message = JacksonUtil.objectConvertToJson(msg);
+	 response.setContentType("application/json;charset=UTF-8");
+	 // 清空缓存的设置
+	 response.setHeader("pragma", "no-cache");
+	 response.setHeader("cache-control", "no-cache");
+	 PrintWriter out = response.getWriter();
+	 out = response.getWriter();
+	 out.print(message);
+   前台：var url = "<%=path %>/opendialogAction!openSotGrid?param_keyword="+encodeURI(encodeURI(param_keyword)) + "&date=" + new Date();
+	 $.ajax({
+	    type: "GET",
+	    url: url,
+	    dataType: "json",
+	    success: function(data){
+	    }
+	 })
+
+3、JSON：
+	值true、false、null时，都要小写。
+
+4、字体划掉、颜色为红色
+<span style="text-decoration:line-through;"><font color="red">删除线效果</font></span>
+

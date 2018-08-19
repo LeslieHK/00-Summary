@@ -1,0 +1,7 @@
+1、一个类的action调用另一个类的action方法
+
+@Action(value="addPlan", results={@Result(type="chain",params={"namespace","/product"},location="showProductInfo")})
+
+2、少用基本类型
+
+3、命名空间要加  /

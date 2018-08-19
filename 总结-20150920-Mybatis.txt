@@ -1,0 +1,196 @@
+1、create database mybatis;
+   use mybatis;
+   show tables;
+   create table user(id varchar(36) primary key, name varchar(64), address varchar(138));
+   desc user;
+2、根目录下：sqlMapConfig.xml
+   <configuration>
+     <environments default="development">
+	<environment id="development">
+	  <transationManager type="JDBC" />
+	  <dataSource type="POOLED">
+	    <property name="driver" value="com.mysql.jdbc.Driver" />
+	    <property name="url" value="jdbc:mysql://localhost/mybatis" />	
+	    <property name="username" value="root" />
+            <property name="password" value="root" />
+	  </dataSource>
+	</environment>
+     </environment>
+     <mappers>
+	<mapper resource="" />
+     </mappers>
+   </configuration>
+3、类配置文件：User.xml
+   <mapper namespace="com.mybatis.domain.User"> <!-- namespace保证唯一 -->
+     <!-- 根据Id查找User -->
+     <select id="selectUserById" parameterType="string" resultType="com.mybatis.domain.User">
+	select * from user where id=#{id}<!-- ibatis用  #id#，#{id}的id可以随便写   -->
+     </select>
+     
+     <!-- 查找所有User -- >
+     <select id="selectAllUsers" resultType="com.mybatis.domain.User">
+     <!-- 返回List类型，resutlType是List里面的类型 -->
+       select * from user;
+     </select>
+   </mapper>
+4、实体属性与数据库的字段不一致：
+   （1）select id, name as username, address from user;
+        select id, name username, address from user;
+   （2）
+5、JUnit：@Before 在 @Test之前执行。
+6、CRUD
+（1）<!--  根据Id查找User  -->
+     <select id="selectUserById" parameterType="string" resultType="com.mybatis.domain.User">
+	select * from user where id=#{id}
+     </select>
+     
+     <!--  根据Id查找User，转成Map  -->
+     <select id="selectUserById" parameterType="string" resultType="hashmap">
+	select * from user where id=#{id}
+     </select>
+     
+
+     <!--  查找所有User -- >
+     <select id="selectAllUsers" resultType="com.mybatis.domain.User">
+       select * from user;
+     </select>
+
+（2）<!--  插入User  -->
+     <insert id="insertUser" parameterType="com.mybatis.domain.User">
+	insert into user (id, name, address) values(#{id}, #{name}, #{address});
+     </insert>
+
+
+     <!--  用Map类型，插入User  -->
+     <insert id="insertUser" parameterType="hashmap">
+	insert into user (id, name, address) values(#{id}, #{name}, #{address});
+     </insert>
+
+（3）<!--  删除User  -->
+     <delete id="deleteUserById" parameterType="string">
+        delete from user where id=#{id}
+     </delete>
+
+（4）<!--  更新User  -->
+     <update id="updateUserById" parameterType="com.mybatis.domain.User">
+        update user set name=#{name}, address=#{address} where id=#{id}
+     </update> 
+7、调用：
+   String resource = "sqlMapConfig.xml";
+   InputStream is = Resources.getResourceAsStream(resource);
+   SqlSessionFactory sqlSessionFactory= new SqlSessionFactoryBuild.build(is);
+   SqlSession session = sqlSessionFactory.openSession();
+
+   session.selectOne("com.mybatis.domain.User.selectUserById","0001");
+   
+   session.selectList("com.mybatis.domain.User.selectAllUsers");
+
+   User user = new User("0003", "wangwu", "cc");
+   session.insert("com.mybatis.domain.User.insertUser",user);
+   session.commit();<!-- 事务语句要提交 -->
+
+   session.delete("com.mybatis.domain.User.deleteById","0004");
+   session.commit();
+
+   User user = new User("0004", "Admin", "HongKong");
+   session.update("com.mybatis.domain.User.updateById",user);
+   session.commit();
+8、动态SQL：
+   <select id="selectUserByCondition" parameterType="com.mybatis.domain.User" resultType="com.mybatis.domain.User">
+     select * from user where 1=1
+     <if test="id != null">
+       and id=#{id}
+     </if>
+     <if test="name != null">
+       and name=#{name}
+     </if>
+     <if test="address != null">
+       and address=#{address}
+     </if>
+   </select>
+
+   User user = new User();
+   user.setId("0001");
+   user.setName("zhangsan");
+   SqlSession session = sqlSessionFactory.openSession();
+   List<User> userList = session.selectList("com.mybatis.domain.User.selectUserByCondition", user);
+   for(User u : userList){
+     System.out.println(u);
+   }
+9、动态SQL（不用where 1=1）：
+   <select id="selectUserByCondition2" parameterType="com.mybatis.domain.User" resultType="com.mybatis.domain.User">
+     select * from user
+     <where>
+       <if test="id != null">
+         and id=#{id}
+       </if>
+       <if test="name != null">
+         and name=#{name}
+       </if>
+       <if test="address != null">
+         and address=#{address}
+       </if>
+     </where>
+   </select>
+10、别名：
+    <typeAliases>
+      <typeAlias type="com.mybatis.domain.User" alias="User"></typeAlias>
+    </typeAliases>
+11、字段名跟属性名不一致
+    <resultMap id="userMap" type="User">
+      <id column="id" property="id" />
+      <result column="name" property="user_name" />
+      <result column="address" property="address" />
+    </resultMap>
+
+    <select id="selectById2" parameterType="string" resultMap="userMap">
+      select * from user where id=#{id}
+    </select>
+12、关联查询
+    <resultMap id="personMap" type="Person">
+      <id column="personId" property="id"/>
+      <result column="personName" property="name"/>
+      <result column="personAddress" property="address"/>
+      <result column="personTel" property="tel"/>
+
+      <collection property="orderList" ofType="Order">
+        <id column="orderId" property="id"/>
+        <result column="orderNumber" property="number"/>
+        <result column="orderPrice" property="price"/>
+      </collection>
+    </resultMap>
+
+    <resultMap id="orderMap" type="Order">  
+      <id column="orderId" property="id"/>
+      <result column="orderNumber" property="number"/>
+      <result column="orderPrice" property="price"/><id column="personId" property="id"/>
+      <association property="person" javaType="Person">
+        <result column="personName" property="name"/>
+        <result column="personAddress" property="address"/>
+        <result column="personTel" property="tel"/>
+      </association>
+    </resultMap>
+13、定义和引用sql
+    <sql id="mysql">id, name, address</sql>
+
+    <select id="selectUserById" parameterType="string" resultType="com.mybatis.domain.User">
+      select <include refid="mysql"></include> from user where id=#{id}
+    </select>
+14、mybatis和spring整合
+（1）bean.xml
+     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="configLocation" value="classpath:sqlMapConfig.xml"/>
+        <property name="mapperLocations">
+          <value>classpath:com/mybatis/domain/User.xml</value>
+        </property>
+     </bean>
+    
+     <bean id="userDao" class="com.mybatis.dao.impl.UserDAOImpl">
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+     </bean>
+（2）UserDAOImpl.java
+     extends SqlSessionDAOSupport
+（3）App.java
+     ApplicationContext ctx = new ClassPathXmlApplicationContext("bean.xml");
+     UserDAOI userDAO = (UserDAOI)ctx.getBean("userDao");

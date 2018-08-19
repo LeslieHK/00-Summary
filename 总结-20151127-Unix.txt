@@ -1,0 +1,19 @@
+Unix
+1、对称多处理：Symmetrical Multi-Processing，简称SMP。
+
+2、磁盘阵列（Redundant Arrays of Independent Disks，RAID），独立磁盘构成的具有冗余能力的阵列。
+
+3、X Window即X Window图形用户接口，是一种计算机软件系统和网络协议。
+
+4、KDE，K桌面环境(Kool Desktop Environment)。
+
+5、在系统运行中，root用户键入init [0-6]来指定。
+   用户可以用/sbin/runlevel来查看当前的运行级别
+   系统的运行级别默认情况下为：
+	0：关机
+	1/S/emergency：单用户模式，通常用于维护系统
+	2：多用户模式但无网络
+	3：多用户模式（字符界面）
+	4：用户定义，未定义情况下与3相同
+	5：X11（包括网络）
+	6：系统重启

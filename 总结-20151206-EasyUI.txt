@@ -1,0 +1,19 @@
+1、EasyUI表格加载成功后触发
+	$('#'+id).datagrid({
+            onLoadSuccess: function (data) {
+                //do.something();
+            }
+	});
+
+2、EasyUI删除表格内容
+	var item = $('#mydatagrid').datagrid('getRows');
+	if (item) {
+		for (var i = item.length - 1; i >= 0; i--) {
+			var index = $('#mydatagrid').datagrid('getRowIndex', item[i]);
+			$('#mydatagrid').datagrid('deleteRow', index);
+		}
+	}
+
+3、EasyUI Combobox获取光标
+	$('#provider').combobox().next('span').find('input').focus();
+

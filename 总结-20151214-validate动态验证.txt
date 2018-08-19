@@ -1,0 +1,24 @@
+1、动态添加验证 
+	$("#dzName").rules("add",{ required: true,range:[1,100000000000], messages: { required: "必填项"} }); 
+
+2、动态删除验证 
+	$("#dzName").rules("remove"); 
+
+3、判断验证是否全部通过 
+	if(!$("#entInfoForm").validate().form()){ 
+            alert("如果您保存不了,请先将必填项填写完整(红色字体提示'必填项')"); 
+        } 
+
+4、EasyUI验证括展
+	$.extend($.fn.validatebox.defaults.rules, {    
+    	  equals: {    
+            validator: function(value,param){    
+              return value == $(param[0]).val();    
+          },    
+          message: 'Field do not match.'   
+    	  }    
+	});
+
+	<input id="pwd" name="pwd" type="password" class="easyui-validatebox" data-options="required:true" />   
+	<input id="rpwd" name="rpwd" type="password" class="easyui-validatebox"     
+    		required="required" validType="equals['#pwd']" /> 

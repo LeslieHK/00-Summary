@@ -1,0 +1,14 @@
+1、scatter：散点图，气泡图。
+2、radar：雷达图。
+3、chord：和弦图。
+4、force：国导布局图。
+5、gauge：仪表图。
+6、funnel：漏斗图。
+7、eventRiver：事件河流图。
+8、venn：韦恩图。
+
+9、柱状图点击事件
+   myChart.on('click', function (param) {
+     alert('点击了我！');
+   });
+http://codepen.io/whqet/pen/zxZEje

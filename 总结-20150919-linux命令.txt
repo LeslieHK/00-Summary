@@ -1,0 +1,4 @@
+1、切到db2inst1用户
+   su - db2inst1
+2、上传
+   rz
