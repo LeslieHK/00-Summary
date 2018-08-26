@@ -1,0 +1,12 @@
+AIX topas命令查看内存占用情况
+AIX系统的topas命令得到如下结果。我应该通过哪个数去判断服务器内存占用情况呢？比如哪个数达到95%，说明内存使用率非常高，可能影响业务运行。谢谢！
+MEMORY
+Real,MB    31616
+% Comp      29.9
+% Noncomp   70.0
+% Client    70.0
+
+PAGING SPACE
+Size，MB  16384
+% Used 15.5
+% Free 85.5

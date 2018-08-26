@@ -1,0 +1,84 @@
+0.中文：#coding:utf-8
+1.退出：exit()、quit()、Ctrl+D
+2.查看保留字：import keyword;keyword.kwlist;
+3.if后有没有括号都可以
+4.print要加括号
+5.等待用户输入：input()
+6.幕：**
+7.整除：//
+8.单行注释：#
+9.多行注释：''''''、""""""
+10.and、or、not、is、is not、in、not in
+11.数学函数：ceil、floor、exp、log、log10、power、round
+12.随机数：
+	import random
+	random.random()
+	注意：random()是不能直接访问的，需要导入 random 模块，然后通过 random 静态对象调用该方法。
+	random.rangrange(1, 20, 2)
+	从指定范围内，从指定基数递增的集合中获取随机数，基数缺失值为1
+13.单引号和双引号使用完全相同
+14.转义符(反斜杠\)可以用来转义，使用r可以让反斜杠不发生转义，如
+	r"this is a line with \n"
+	则\n会显示，并不是换行
+15.字符串可以用 + 运算符连接在一起，用 * 运算符重复
+16.字符串的截取的语法格式如下：变量[头下标:尾下标]
+17.name  = 'Genji'; age = 24; print("我叫：%s，我今年%d岁。" % (name, age));
+18.字符串函数：
+	str.capitalize();#首字母大写，其余小写
+	str.count(sub, start=0, end=len(str));#统计子字符串在字符串中出现的次数
+	str.find(sub, start=0, end=len(str));
+	str.endwith();
+	str.index(sub, start=0, end=len(str));
+	str.isalnum();
+	str.isalpha();
+	str.isdigit();
+	str.isspace();
+	str.istitle();
+19.列表倒数第一个：li[-1]
+20.删除列表元素：del li[3]
+21.
+	list.append(obj)
+	在列表末尾添加新的对象
+	list.extend(seq)
+	在列表末尾一次性追加另一个序列中的多个值
+22.列表推导：
+	[x**2 for x in [1,2,4,8]]
+	[3*x for x in vec if x > 3]
+	[x*y for x in vec1 for y in vec2]
+23.元组与列表类似，不同之处在于元组的元素不能修改
+	元组中只包含一个元素时，需要在元素后面添加逗号，否则括号会被当作运算符使用
+	元组中的元素值是不允许删除的，但我们可以使用 del 语句来删除整个元
+24.可以使用大括号 {} 或者 set() 函数创建集合
+25.移除元素
+	如果存在元素 val 则移除，不存在就报错：
+	set.remove(val)
+	如果存在元素 val 则移除，不存在也不会报错：
+	set.discard(val)
+26.
+	if ...:
+		...;
+	elif ...:
+		...;
+27.Python 中没有 switch - case 语句
+28.
+	for <循环变量> in <循环对象>：
+	    <语句1>
+	else:
+	    <语句2>
+	else 
+	语句中的语句2只有循环正常退出（遍历完所有遍历对象中的值）时执行。
+29.在序列中遍历时，索引位置和对应值可以使用 enumerate() 函数同时得到
+30.迭代器：
+	li = [1,2,3,4]
+	it = iter(li)
+
+	import sys
+	while True:
+	    try:
+	        print (next(it))
+	    except StopIteration:
+	        sys.exit()
+31.自定义函数
+32.Python 中一切都是对象
+33.Python 使用 lambda 来创建匿名函数。
+	所谓匿名，意即不再使用 def 语句这样标准的形式定义一个函数
